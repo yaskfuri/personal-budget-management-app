@@ -1,0 +1,22 @@
+import sqlite3
+
+# Connect to SQLite (creates the file if it doesn't exist)
+connection = sqlite3.connect('personal_budget.db')
+
+# Create a cursor to execute SQL commands
+cursor = connection.cursor()
+
+# Example: Create a transactions table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS transactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description TEXT NOT NULL,
+    amount REAL NOT NULL,
+    category TEXT,
+    date TEXT NOT NULL
+)
+''')
+
+# Commit and close
+connection.commit()
+connection.close()
