@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import TransactionList from "./TransactionList";
+import TransactionForm from "./TransactionForm";
 
 function App() {
-  const [data, setData] = useState("");
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-  useEffect(() => {
-    // Fetch data from Flask API
-    axios
-      .get("/api/data")
-      .then((response) => {
-        setData(response.data.message);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  // Handle form submission (refresh transaction list and reset selection)
+  const handleFormSubmit = () => {
+    setSelectedTransaction(null);
+  };
 
-  return <h1>{data}</h1>;
+  return (
+    <div>
+      <TransactionForm
+        selectedTransaction={selectedTransaction}
+        onFormSubmit={handleFormSubmit}
+      />
+      <TransactionList onEdit={setSelectedTransaction} />
+    </div>
+  );
 }
 
-
-
 export default App;
+
