@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
+import pickle
 
 # App + Flask API for react app with jsonify 
 
@@ -112,3 +113,17 @@ def delete_transaction(id):
 
     return jsonify({"message": f"Transaction {id} deleted successfully!"})
 
+# Load the trained model for categorization
+with open("expense_classifier.pkl", "rb") as f:
+    model = pickle.load(f)
+
+# Predict category for a given transaction description
+@app.route('/predict_category', methods=['POST'])
+def predict_category():
+    data = request.json
+    description = data['description']
+    
+    # Make prediction
+    category = model.predict([description])[0]
+    
+    return jsonify({"description": description, "predicted_category": category})
