@@ -7,6 +7,7 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
     amount: "",
     category: "",
     date: "",
+    user_id: "",
   });
 
   // Update form data when a transaction is selected for editing
@@ -14,7 +15,7 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
     if (selectedTransaction) {
       setFormData(selectedTransaction);
     } else {
-      setFormData({ description: "", amount: "", category: "", date: "" });
+      setFormData({ description: "", amount: "", category: "", date: "", user_id: "" });
     }
   }, [selectedTransaction]);
 
