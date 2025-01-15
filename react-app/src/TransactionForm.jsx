@@ -7,7 +7,6 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
     amount: "",
     category: "",
     date: "",
-    user_id: "",
   });
 
   // Update form data when a transaction is selected for editing
@@ -15,7 +14,7 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
     if (selectedTransaction) {
       setFormData(selectedTransaction);
     } else {
-      setFormData({ description: "", amount: "", category: "", date: "", user_id: "" });
+      setFormData({ description: "", amount: "", category: "", date: "" });
     }
   }, [selectedTransaction]);
 
@@ -45,6 +44,15 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
     }
   };
 
+  // Handle category prediction
+  const handleCategorize = () => {
+    axios.post("http://127.0.0.1:5000/predict_category", { description: formData.description })
+      .then((response) => {
+        setFormData((prev) => ({ ...prev, category: response.data.predicted_category }));
+      })
+      .catch((error) => console.error("Error predicting category:", error));
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>{selectedTransaction ? "Edit Transaction" : "Add Transaction"}</h2>
@@ -57,6 +65,11 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
           onChange={handleChange}
           required
         />
+      </div>
+      <div>
+        <button type="button" onClick={handleCategorize}>
+          Categorize
+        </button>
       </div>
       <div>
         <label>Amount:</label>

@@ -12,7 +12,7 @@ df = pd.read_csv("transactions.csv")
 X = df['description']
 y = df['category']
 
-# Create a pipeline: Vectorize text and apply Naive Bayes classifier
+# Create a pipeline: Vectorize text and apply Naive Bayes classifier (a statistical classification technique based on Bayes Theorem from NLTK)
 model_pipeline = Pipeline([
     ('vectorizer', CountVectorizer()), 
     ('classifier', MultinomialNB())
