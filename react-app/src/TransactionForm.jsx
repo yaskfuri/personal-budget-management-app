@@ -53,6 +53,19 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
       .catch((error) => console.error("Error predicting category:", error));
   };
 
+  const handleFeedbackSubmit = () => {
+    axios.post("http://127.0.0.1:5000/feedback", {
+      description: formData.description,
+      correct_category: formData.category
+    })
+    .then(response => {
+      alert("Thank you for your feedback!");
+    })
+    .catch(error => {
+      console.error("Error submitting feedback:", error);
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>{selectedTransaction ? "Edit Transaction" : "Add Transaction"}</h2>
@@ -102,6 +115,12 @@ function TransactionForm({ selectedTransaction, onFormSubmit }) {
         />
       </div>
       <button type="submit">Save</button>
+      <div>
+        <button type="button" onClick={handleFeedbackSubmit}>
+          Submit Feedback
+        </button>
+      </div>
+
     </form>
   );
 }

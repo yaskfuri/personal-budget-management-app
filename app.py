@@ -127,3 +127,15 @@ def predict_category():
     category = model.predict([description])[0]
     
     return jsonify({"description": description, "predicted_category": category})
+
+@app.route('/feedback', methods=['POST'])
+def handle_feedback():
+    data = request.json
+    description = data['description']
+    correct_category = data['correct_category']
+
+    # Log feedback for future model training
+    with open("feedback_log.csv", "a") as f:
+        f.write(f'"{description}","{correct_category}"\n')
+
+    return jsonify({"message": "Feedback received!"})
